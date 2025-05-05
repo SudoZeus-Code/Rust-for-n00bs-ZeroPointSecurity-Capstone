@@ -5,11 +5,13 @@ use std::io::{stdin,stdout,Write};
 
 // file checks
 mod fileop;
-use fileop::filechecks;
+use fileop::exists;
 use fileop::write;
+use fileop::list;
 
 mod additem;
 use additem::addnewitem;
+mod models;
 
 //mod listitem;
 
@@ -20,7 +22,7 @@ use additem::addnewitem;
 fn main() {
 
 	
-	filechecks();
+	exists();
 	
 	loop {
 
@@ -63,12 +65,15 @@ fn main() {
 			1 => {
 	
 				let mut item = addnewitem();
-							
+
+										
 				write(item.to_string());
 	
 			}
 			2 => {
-				println!("choice {} selected", c);
+				
+				list()
+				
 			}
 			3 => {
 				println!("choice {} selected", c);

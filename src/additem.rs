@@ -4,15 +4,18 @@ use serde::{Deserialize, Serialize};
 
 
 
+// Moved to model.rs
+// #[derive(Serialize, Deserialize)]
+// struct Todoitem {
+// 	title: String,
+// 	body: String,
+// 	priority: String,
+// 	status: String,
+// 	duedate: String,
+// }
 
-#[derive(Serialize, Deserialize)]
-struct Todoitem {
-	title: String,
-	body: String,
-	priority: String,
-	status: String,
-	duedate: String,
-}
+use crate::models::Todoitem;
+
 
 fn add(t: String, b: String, p: String, s: String, d: String) -> std::string::String {
 
@@ -23,12 +26,16 @@ fn add(t: String, b: String, p: String, s: String, d: String) -> std::string::St
 		status: s,
 		duedate: d,
 	};
+
+	//need to write nice json to our file
 	
 	let ni: String = serde_json::to_string(&newitem).expect("Some error when converting to json");
 
-
+	//let () = ni;
 	// debug
 	//println!("{}", ni); // write to a file here
+
+	//println!("{}", ni);
 
 	ni
 
