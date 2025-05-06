@@ -8,10 +8,12 @@ mod fileop;
 use fileop::exists;
 use fileop::write;
 use fileop::list;
+use fileop::show;
 
 mod additem;
 use additem::addnewitem;
 mod models;
+
 
 //mod listitem;
 
@@ -76,7 +78,9 @@ fn main() {
 				
 			}
 			3 => {
-				println!("choice {} selected", c);
+
+				show()
+
 			}
 			4 => {			
 				println!("choice {} selected", c);
