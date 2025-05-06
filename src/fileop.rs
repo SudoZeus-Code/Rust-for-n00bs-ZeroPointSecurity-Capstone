@@ -91,7 +91,7 @@ pub fn list() {
         println!("Status:{}", &item["status"]);
         println!("Due Date:{}", &item["duedate"]);
         println!("\n");
-        //dbg!(item.keys());
+        dbg!(item.keys());
     }
 
     pause();
@@ -135,5 +135,38 @@ pub fn show() {
 
 pub fn delete() {
 
+    clearscreen::clear().expect("failed to clear screen");
+
+    let file_path = "library.json".to_owned();
+    let contents = fs::read_to_string(file_path).expect("Couldnt find or load file.");
+
+    let mut v: Vec<HashMap<String, Value>> = serde_json::from_str(&contents).expect("Failed to read to HashMap");
+
+    print!("(!)Enter a title to delete: ");
+    stdout().flush().unwrap();
+    let mut c = String::new();
+    stdin().read_line(&mut c).expect("Failed to read line");	
+    c.pop(); // get rid of trailing new line
+
     
+    for item in v.iter() {
+
+        if *c == item["title"] {
+            let key_to_remove_title = "title";
+            let removed_value = v.remove(key_to_remove_title)
+
+                // Print the HashMap after removal
+            match removed_value {
+                Some(_) => println!("HashMap after removing key '{}': {:?}", key_to_remove, my_map), // If the key existed and was removed, print the updated HashMap
+                None => println!("Key '{}' does not exist in the HashMap.", key_to_remove), // If the key did not exist, print a message
+            }
+
+
+            println!("\n");
+        }
+    }
+
+    pause();
+
+
 }

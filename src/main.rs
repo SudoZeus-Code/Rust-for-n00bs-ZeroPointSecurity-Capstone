@@ -9,6 +9,7 @@ use fileop::exists;
 use fileop::write;
 use fileop::list;
 use fileop::show;
+use fileop::delete;
 
 mod additem;
 use additem::addnewitem;
