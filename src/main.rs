@@ -64,7 +64,7 @@ fn main() {
 			
 			1 => {
 	
-				let mut item = addnewitem();
+				let item = addnewitem();
 
 										
 				write(item.to_string());
