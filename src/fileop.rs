@@ -10,8 +10,8 @@ use std::time::Duration;
 
 //json reading
 use serde::{Serialize,Deserialize};
-//use serde_json::json;
-use serde_json::{from_reader, to_writer_pretty};
+//use serde_json::json::Json;
+use serde_json::{from_reader, to_writer_pretty, Value};
 use std::path::Path;
 use std::error::Error;
 //use std::fs::File
@@ -52,11 +52,6 @@ pub fn exists() {
 
 pub fn write(i: String) {
 
-
-
-
-
-    // start of new
     let ser_item: Todoitem = serde_json::from_str(&i).expect("bad input JSON");
     let path = "library.json";
     let file = OpenOptions::new().read(true).open(path);
@@ -75,7 +70,7 @@ pub fn write(i: String) {
     let file = File::create(path).expect("Cant create file");
     let writer = BufWriter::new(file);
     to_writer_pretty(writer, &items).expect("Failed to write.");
-    //end of new
+    
 
     //Writes new items to our file.
     
@@ -102,7 +97,18 @@ pub fn list() {
 
     clearscreen::clear().expect("failed to clear screen");
 
- 
+    //https://stackoverflow.com/questions/30292752/how-do-i-parse-a-json-file
+    let mut file = File::open("library.json").unwrap();
+    let mut data = String::new();
+    file.read_to_string(&mut data).unwrap();
+
+    // Using Value here instead of Todoitem??
+    let json: Todoitem = serde_json::from_str(&data).unwrap();
+    //https://whoisryosuke.com/blog/2022/parsing-json-with-rust
+    println!("Title:{}\nBody:{}", json["title"], json["body"][0]);
+    
+
+
     pause();
 
 }
