@@ -67,8 +67,7 @@ fn main() {
 			1 => {
 	
 				let item = addnewitem();
-
-										
+				
 				write(item.to_string());
 	
 			}
@@ -83,7 +82,9 @@ fn main() {
 
 			}
 			4 => {			
-				println!("choice {} selected", c);
+
+				delete()
+
 			}
 			5 => {
 				println!("EXITING!");
