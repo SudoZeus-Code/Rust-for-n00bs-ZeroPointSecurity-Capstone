@@ -99,3 +99,37 @@ pub fn list() {
 }
 
 
+pub fn show() {
+
+    clearscreen::clear().expect("failed to clear screen");
+
+    let file_path = "library.json".to_owned();
+    let contents = fs::read_to_string(file_path).expect("Couldnt find or load file.");
+
+    let v: Vec<HashMap<String, Value>> = serde_json::from_str(&contents).expect("Failed to read to HashMap");
+
+    print!("Enter a title to search for: ");
+    stdout().flush().unwrap();
+    let mut c = String::new();
+    stdin().read_line(&mut c).expect("Failed to read line");	
+    c.pop(); // get rid of trailing new line
+
+    
+    for item in v.iter() {
+
+        if *c == item["title"] {
+            println!("Title:{}", &item["title"]);
+            println!("Body:{}", &item["body"]);
+            println!("Priority:{}", &item["priority"]);
+            println!("Status:{}", &item["status"]);
+            println!("Due Date:{}", &item["duedate"]);
+            println!("\n");
+        }
+    }
+
+    pause();
+
+
+
+}
+
