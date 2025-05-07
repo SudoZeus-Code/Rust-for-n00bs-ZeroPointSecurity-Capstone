@@ -519,6 +519,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4a5f13b858c8d314ee3e8f639011f7ccefe71f97f96e50151fb991f267928e2c"
 
 [[package]]
+name = "json_value_remove"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1345ecaad8808237416a0225a00dd3341de434607fb3ca7f15ff90a73f87f74b"
+dependencies = [
+ "serde_json",
+]
+
+[[package]]
 name = "libc"
 version = "0.2.172"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -737,6 +746,7 @@ version = "0.1.0"
 dependencies = [
  "clearscreen",
  "io",
+ "json_value_remove",
  "serde",
  "serde_json",
  "time",

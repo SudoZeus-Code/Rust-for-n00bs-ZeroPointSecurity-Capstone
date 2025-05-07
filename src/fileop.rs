@@ -111,7 +111,8 @@ pub fn show() {
     let contents = fs::read_to_string(file_path).expect("Couldnt find or load file.");
 
     // change this to Vec<Value>
-    let v: Vec<HashMap<String, Value>> = serde_json::from_str(&contents).expect("Failed to read to HashMap");
+    //let v: Vec<HashMap<String, Value>> = serde_json::from_str(&contents).expect("Failed to read to HashMap");
+    let v: Vec<Value> = serde_json::from_str(&contents).expect("Failed to read to HashMap");
 
     print!("Enter a title to search for: ");
     stdout().flush().unwrap();
@@ -139,109 +140,79 @@ pub fn show() {
 }
 
 
-pub fn delete() {
+// pub fn delete() {
 
-    clearscreen::clear().expect("failed to clear screen");
+//     clearscreen::clear().expect("failed to clear screen");
 
-    let file_path = "library.json".to_owned();
+//     let file_path = "library.json".to_owned();
 
-    let contents = fs::read_to_string(file_path).expect("Couldnt find or load file.");
+//     let contents = fs::read_to_string(file_path).expect("Couldnt find or load file.");
 
-    //let mut v: Vec<Value> = serde_json::from_str(&contents).expect("Failed to read to HashMap");
-    let mut json_resp: serde_json::Value = serde_json::from_str(&contents).expect("Json parsing error");
+//     //let mut v: Vec<Value> = serde_json::from_str(&contents).expect("Failed to read to HashMap");
+//     let mut json_resp: serde_json::Value = serde_json::from_str(&contents).expect("Json parsing error");
 
-    //https://crates.io/crates/json_value_remove
+//     //https://crates.io/crates/json_value_remove
 
-    extern crate json_value_remove;
+//     extern crate json_value_remove;
 
-    use json_value_remove::Remove;
-    use serde_json::Value;
+//     use json_value_remove::Remove;
+//     use serde_json::Value;
 
-    //Value::String("value1.2".to_String())
+//     //Value::String("value1.2".to_String())
 
-    dbg!(&json_resp);
-    json_resp.remove("lightning").unwrap();
-    dbg!(&json_resp);
-    pause();
+//     dbg!(&json_resp);
+//     json_resp.remove("lightning").unwrap();
+//     dbg!(&json_resp);
+//     pause();
 
-
-}
+//     // maybe try the array? instead of the object example
+// }
  
 
 
-//DO NOT DELETE THIS WITHOUT TAKING NOTES
-/*
 pub fn delete() {
 
     clearscreen::clear().expect("failed to clear screen");
 
     let file_path = "library.json".to_owned();
 
-    let contents = fs::read_to_string(file_path).expect("Couldnt find or load file.");
+    let contents = fs::read_to_string(&file_path).expect("Couldnt find or load file.");
 
-    //https://brandonrozek.com/blog/modifying-json-in-rust/
-
-    //let mut v: Vec<Value> = serde_json::from_str(&contents).expect("Failed to read to HashMap");
-    let mut json_resp: serde_json::Value = serde_json::from_str(&contents).expect("Json parsing error");
-
-    let json_array = json_resp.as_array_mut().expect("Exected JSON array");
-
-    let first_item = json_array.get_mut(0).unwrap();
-
-    //dbg!(&first_item);
-
-    let first_item_obj = first_item.as_object_mut().unwrap();
-
-    dbg!(&first_item_obj);
-
-    //testing to remove body 
-    first_item_obj.remove("body");
-
-    dbg!(&first_item_obj);
-
-    //OK this works!
-    /*
-    [src/fileop.rs:162:5] &first_item_obj = {
-        "body": String("Lightning attack"),
-        "duedate": String("1"),
-        "priority": String("Critical"),
-        "status": String("Complete"),
-        "title": String("Pikachu"),
-    }
-    [src/fileop.rs:167:5] &first_item_obj = {
-        "duedate": String("1"),
-        "priority": String("Critical"),
-        "status": String("Complete"),
-        "title": String("Pikachu"),
-    } 
-    */
-    //let contents = fs::read_to_string(file_path).expect("Couldnt find or load file.");
-
-    //let mut v: Vec<Value> = serde_json::from_str(&contents).expect("Failed to read to HashMap");
-
-    //let mut map: Map<String, Value> = serde_json::from_str(&contents).expect("Failed to Map");
-
-    // print!("(!)Enter a title to delete: ");
-    // stdout().flush().unwrap();
-    // let mut c = String::new();
-    // stdin().read_line(&mut c).expect("Failed to read line");	
-    // c.pop(); // get rid of trailing new line
-
-    //dbg!(&v);
     
-    // for item in v.iter() {
 
-    //     if *c == item["title"] {
-            
-    //     }
-    // }dFDSFdD
+    let mut json_array: Vec<Value> = serde_json::from_str(&contents).expect("Failed to read to HashMap");
 
-    // for item in v.iter(){
-    //     let nest = map.get_mut("title").expect("should exist").as_object_mut().expect("should be an object");
-    //     nest.remove("")
-    // }
+
+    print!("(!) Enter a title to delete: ");
+    stdout().flush().unwrap();
+    let mut c = String::new();
+    stdin().read_line(&mut c).expect("Failed to read line");	
+    //c.pop(); // get rid of trailing new line
+    let title_be_gone = c.trim();
+
+    let original_len = json_array.len();
+
+    json_array.retain(|item| {
+        item.get("title")
+            .and_then(|t| t.as_str())
+            .map(|t| t != title_be_gone)
+            .unwrap_or(true)
+    });
+
+
+    if json_array.len() == original_len {
+        println!("no item found with the title '{}'", title_be_gone);
+    } else {
+        println!("Item with title '{}' has been removed.", title_be_gone);
+
+
+        // write new to library,json
+        let new_json = serde_json::to_string_pretty(&json_array).expect("Failed to serialize JSON");
+        fs::write(file_path, new_json).expect("Failed to write JSON file.");
+
+    }
 
     pause();
 
 
-} */
+} 

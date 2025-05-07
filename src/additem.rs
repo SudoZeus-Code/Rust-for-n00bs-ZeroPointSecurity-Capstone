@@ -1,8 +1,7 @@
 use std::io::{stdin,stdout,Write};
-//use serde::{Deserialize, Serialize};
-//use serde_json::Result;
 
-
+// import json struct
+use crate::models::Todoitem;
 
 // Moved to model.rs
 // #[derive(Serialize, Deserialize)]
@@ -14,9 +13,6 @@ use std::io::{stdin,stdout,Write};
 // 	duedate: String,
 // }
 
-use crate::models::Todoitem;
-
-
 fn add(t: String, b: String, p: String, s: String, d: String) -> std::string::String {
 
 	let newitem = Todoitem {
@@ -27,15 +23,13 @@ fn add(t: String, b: String, p: String, s: String, d: String) -> std::string::St
 		duedate: d,
 	};
 
-	//need to write nice json to our file
+	//need to write nice json to our file //fixed
 	
 	let ni: String = serde_json::to_string(&newitem).expect("Some error when converting to json");
-
+ 
 	//let () = ni;
-	// debug
+	//dbg!(&ni);
 	//println!("{}", ni); // write to a file here
-
-	//println!("{}", ni);
 
 	ni
 
@@ -58,7 +52,7 @@ pub fn addnewitem() -> std::string::String {
 
 	let item = add(title,body,pri,sta,duda);
 
-	//println!("Item Added! "); // write to a file here
+	//println!("Item Added! "); // write to a file here // moved
 
 	item
 
@@ -133,7 +127,7 @@ fn priority() -> String {
 
 		// convert to int for match statement		
 		let pp: i32 = p.parse().unwrap();
-		// will call our modules here
+		
 
 
 		match pp {
@@ -196,7 +190,7 @@ fn sta() -> String {
 
 		// convert to int for match statement		
 		let ss: i32 = s.parse().unwrap();
-		// will call our modules here
+		
 
 
 		match ss {

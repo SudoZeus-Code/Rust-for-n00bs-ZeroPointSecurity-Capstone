@@ -6,6 +6,7 @@ edition = "2024"
 [dependencies]
 clearscreen = "4.0.1"
 io = "0.0.2"
+json_value_remove = "1.1.0"
 serde = { version = "1.0.219", features = ["derive"]}
 serde_json = "1.0.140"
 time = "0.3.41"

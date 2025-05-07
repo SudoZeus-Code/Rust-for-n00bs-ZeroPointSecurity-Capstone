@@ -1,26 +1,14 @@
-
-//use std::io::{stdin,stdout,write};
 use std::io::{stdin,stdout,Write};
-//use std::io::Write;
 
-// file checks
+// file operations
 mod fileop;
-use fileop::exists;
-use fileop::write;
-use fileop::list;
-use fileop::show;
-use fileop::delete;
+use fileop::{exists, write, list, show, delete};
 
+// add item 
 mod additem;
 use additem::addnewitem;
 mod models;
 
-
-//mod listitem;
-
-//mod showitem;
-
-//mod delitem;
 
 fn main() {
 
@@ -67,9 +55,9 @@ fn main() {
 			
 			1 => {
 	
-				let item = addnewitem();
+				let item = addnewitem(); // could clean this up 
 				
-				write(item.to_string());
+				write(item.to_string()); // could clean this up
 	
 			}
 			2 => {
