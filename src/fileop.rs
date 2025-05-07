@@ -81,7 +81,11 @@ pub fn list() {
     let contents = fs::read_to_string(file_path).expect("Couldnt find or load file.");
 
 
-    let v: Vec<HashMap<String, Value>> = serde_json::from_str(&contents).expect("Failed to read to HashMap");
+    //let v: Vec<HashMap<String, Value>> = serde_json::from_str(&contents).expect("Failed to read to HashMap");
+    // Utilizing Vec<Value> instead of a hashmmap
+    let v: Vec<Value> = serde_json::from_str(&contents).expect("Failed to read to vector");
+
+    //dbg!(&v);
 
     //https://williamhuey.github.io/posts/rust-serde-iterating-over-json-keys/
     for item in v.iter() {
@@ -91,9 +95,9 @@ pub fn list() {
         println!("Status:{}", &item["status"]);
         println!("Due Date:{}", &item["duedate"]);
         println!("\n");
-        dbg!(item.keys());
+        //dbg!(item.keys());
     }
-
+    
     pause();
 
 }
@@ -106,6 +110,7 @@ pub fn show() {
     let file_path = "library.json".to_owned();
     let contents = fs::read_to_string(file_path).expect("Couldnt find or load file.");
 
+    // change this to Vec<Value>
     let v: Vec<HashMap<String, Value>> = serde_json::from_str(&contents).expect("Failed to read to HashMap");
 
     print!("Enter a title to search for: ");
@@ -138,33 +143,70 @@ pub fn delete() {
     clearscreen::clear().expect("failed to clear screen");
 
     let file_path = "library.json".to_owned();
+
     let contents = fs::read_to_string(file_path).expect("Couldnt find or load file.");
 
-    let mut v: Vec<HashMap<String, Value>> = serde_json::from_str(&contents).expect("Failed to read to HashMap");
+    //https://brandonrozek.com/blog/modifying-json-in-rust/
 
-    print!("(!)Enter a title to delete: ");
-    stdout().flush().unwrap();
-    let mut c = String::new();
-    stdin().read_line(&mut c).expect("Failed to read line");	
-    c.pop(); // get rid of trailing new line
+    //let mut v: Vec<Value> = serde_json::from_str(&contents).expect("Failed to read to HashMap");
+    let mut json_resp: serde_json::Value = serde_json::from_str(&contents).expect("Json parsing error");
 
-    
-    for item in v.iter() {
+    let json_array = json_resp.as_array_mut().expect("Exected JSON array");
 
-        if *c == item["title"] {
-            let key_to_remove_title = "title";
-            let removed_value = v.remove(key_to_remove_title)
+    let first_item = json_array.get_mut(0).unwrap();
 
-                // Print the HashMap after removal
-            match removed_value {
-                Some(_) => println!("HashMap after removing key '{}': {:?}", key_to_remove, my_map), // If the key existed and was removed, print the updated HashMap
-                None => println!("Key '{}' does not exist in the HashMap.", key_to_remove), // If the key did not exist, print a message
-            }
+    //dbg!(&first_item);
 
+    let first_item_obj = first_item.as_object_mut().unwrap();
 
-            println!("\n");
-        }
+    dbg!(&first_item_obj);
+
+    //testing to remove body 
+    first_item_obj.remove("body");
+
+    dbg!(&first_item_obj);
+
+    //OK this works!
+    /*
+    [src/fileop.rs:162:5] &first_item_obj = {
+        "body": String("Lightning attack"),
+        "duedate": String("1"),
+        "priority": String("Critical"),
+        "status": String("Complete"),
+        "title": String("Pikachu"),
     }
+    [src/fileop.rs:167:5] &first_item_obj = {
+        "duedate": String("1"),
+        "priority": String("Critical"),
+        "status": String("Complete"),
+        "title": String("Pikachu"),
+    } 
+    */
+    //let contents = fs::read_to_string(file_path).expect("Couldnt find or load file.");
+
+    //let mut v: Vec<Value> = serde_json::from_str(&contents).expect("Failed to read to HashMap");
+
+    //let mut map: Map<String, Value> = serde_json::from_str(&contents).expect("Failed to Map");
+
+    // print!("(!)Enter a title to delete: ");
+    // stdout().flush().unwrap();
+    // let mut c = String::new();
+    // stdin().read_line(&mut c).expect("Failed to read line");	
+    // c.pop(); // get rid of trailing new line
+
+    //dbg!(&v);
+    
+    // for item in v.iter() {
+
+    //     if *c == item["title"] {
+            
+    //     }
+    // }dFDSFdD
+
+    // for item in v.iter(){
+    //     let nest = map.get_mut("title").expect("should exist").as_object_mut().expect("should be an object");
+    //     nest.remove("")
+    // }
 
     pause();
 
