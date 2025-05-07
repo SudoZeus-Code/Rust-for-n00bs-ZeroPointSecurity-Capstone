@@ -1,6 +1,6 @@
 # Rust for n00bs (ZeroPoint Security Course) Capstone Project 
 
-## to-do list application
+## 📋 to-do list application
 
 My code base consist of 4 files.
 
