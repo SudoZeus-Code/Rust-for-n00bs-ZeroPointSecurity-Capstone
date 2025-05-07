@@ -138,6 +138,39 @@ pub fn show() {
 
 }
 
+
+pub fn delete() {
+
+    clearscreen::clear().expect("failed to clear screen");
+
+    let file_path = "library.json".to_owned();
+
+    let contents = fs::read_to_string(file_path).expect("Couldnt find or load file.");
+
+    //let mut v: Vec<Value> = serde_json::from_str(&contents).expect("Failed to read to HashMap");
+    let mut json_resp: serde_json::Value = serde_json::from_str(&contents).expect("Json parsing error");
+
+    //https://crates.io/crates/json_value_remove
+
+    extern crate json_value_remove;
+
+    use json_value_remove::Remove;
+    use serde_json::Value;
+
+    //Value::String("value1.2".to_String())
+
+    dbg!(&json_resp);
+    json_resp.remove("lightning").unwrap();
+    dbg!(&json_resp);
+    pause();
+
+
+}
+ 
+
+
+//DO NOT DELETE THIS WITHOUT TAKING NOTES
+/*
 pub fn delete() {
 
     clearscreen::clear().expect("failed to clear screen");
@@ -211,4 +244,4 @@ pub fn delete() {
     pause();
 
 
-}
+} */
