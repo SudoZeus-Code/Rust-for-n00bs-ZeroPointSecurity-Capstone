@@ -14,7 +14,7 @@ Contains the struct for our JSON objects.
 Additem is used for adding TO-DO items to the list. Contains functions for retrieving json feilds from the user and formating them correctly. Also has a function that calls a crate that contains the struct for the json object and adds all user input to the json object. Returns a json string to main, that is then passed to the function write() in fileops.rs which writes it to a file. 
 
 ### fileop.rs
-Fileop is used to perform all file operations. This includes exists() which is ran at program start to verify the json file exists and if not creates one. Write() writes our json object to the file. List() lists all to-do json objects in the file. Show() takes a tite from user input and retrieves the specific to-do item from the file. Delete() removes a to-do item from the file. 
+Fileop is used to perform all file operations. This includes exists() which is ran at program start to verify the json file exists and if not creates one. Write() writes our json object to the file. List() lists all to-do json objects in the file. Show() takes a title from user input and retrieves the specific to-do item from the file. Delete() removes a to-do item from the file. 
 
 ```
 The capstone project is to create a to-do list application using all the knowledge and skills presented throughout this course.
