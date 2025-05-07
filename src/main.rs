@@ -45,7 +45,7 @@ fn main() {
 		let cc = &c.parse::<i32>();
 			match cc {
 				Ok(_) => println!("\n"), // this is hella sloppy
-				Err(e) => println!("ERROR:`{}`\n Please input a valid integer between 1-4",e),
+				Err(e) => println!("ERROR:`{}`\nPlease input a valid integer between 1-4",e),
 			}
 	
 		// convert to int for match statement		
